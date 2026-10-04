@@ -1,14 +1,15 @@
 <?php
 /**
- * Delete RRP data if uninstalled.
+ * Delete RRP (MSRP) for WooCommerce data when uninstalled.
  *
- * @package WooCommerce RRP
+ * @package WooCommerce_RRP
  * @since 1.0
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) :
 	exit;
 endif;
+
 delete_option( 'woo_rrp_before_price' );
 delete_option( 'woo_rrp_before_sale_price' );
 delete_option( 'woo_rrp_archive_option' );

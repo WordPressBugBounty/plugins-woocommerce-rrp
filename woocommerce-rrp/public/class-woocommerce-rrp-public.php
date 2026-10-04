@@ -1,6 +1,6 @@
 <?php
 /**
- * The public-specific functionality of WooCommerce RRP.
+ * The public-specific functionality of RRP (MSRP) for WooCommerce.
  *
  * @author     Bradley Davis
  * @package    WooCommerce_RRP
@@ -31,10 +31,11 @@ class WooCommerce_RRP_Public {
 	 * Include all the required public partials.
 	 *
 	 * @since 1.7.0
+	 * @return void
 	 */
 	public function woo_rrp_public_require() {
-		require_once 'partials/class-woocommerce-rrp-render-category.php';
-		require_once 'partials/class-woocommerce-rrp-render-single-product.php';
+		require_once __DIR__ . '/partials/class-woocommerce-rrp-render-category.php';
+		require_once __DIR__ . '/partials/class-woocommerce-rrp-render-single-product.php';
 	}
 }
 

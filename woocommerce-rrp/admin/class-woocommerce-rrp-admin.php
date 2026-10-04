@@ -1,6 +1,6 @@
 <?php
 /**
- * The admin-specific functionality of WooCommerce RRP.
+ * The admin-specific functionality of RRP (MSRP) for WooCommerce.
  *
  * @author     Bradley Davis
  * @package    WooCommerce_RRP
@@ -31,6 +31,7 @@ class WooCommerce_RRP_Admin {
 	 * Add all filter type actions.
 	 *
 	 * @since 1.7.0
+	 * @return void
 	 */
 	public function woo_rrp_admin_activate() {
 		add_filter( 'woocommerce_general_settings', array( $this, 'woo_rrp_input' ), 100, 1 );
@@ -40,8 +41,8 @@ class WooCommerce_RRP_Admin {
 	 * Create and add input fields to the WooCommerce UI.
 	 *
 	 * @since  1.0
-	 * @param  mixed $settings Gives access to the global wp setting api object.
-	 * @return array Returns the new fields for suer input.
+	 * @param  array $settings The WooCommerce general settings fields.
+	 * @return array Returns the settings including the new fields for user input.
 	 */
 	public function woo_rrp_input( $settings ) {
 		$woo_rrp_update = array();

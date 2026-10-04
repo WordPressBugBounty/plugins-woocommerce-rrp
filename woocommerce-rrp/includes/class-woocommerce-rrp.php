@@ -1,6 +1,6 @@
 <?php
 /**
- * The includes are included for WooCommerce RRP.
+ * The includes are included for RRP (MSRP) for WooCommerce.
  *
  * @author     Bradley Davis
  * @package    WooCommerce_RRP
@@ -32,20 +32,17 @@ class WooCommerce_RRP {
 	 * Include all the required include partials.
 	 *
 	 * @since 1.7.0
+	 * @return void
 	 */
 	public function woo_rrp_includes_require() {
 		/**
-		 * The class responsible for defining internationalization functionality.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/partials/class-woocommerce-rrp-i18n.php';
-		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woocommerce-rrp-admin.php';
+		require_once dirname( __DIR__ ) . '/admin/class-woocommerce-rrp-admin.php';
 		/**
 		 * The class responsible for defining all actions that occur on the public-facing side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woocommerce-rrp-public.php';
+		require_once dirname( __DIR__ ) . '/public/class-woocommerce-rrp-public.php';
 	}
 }
 

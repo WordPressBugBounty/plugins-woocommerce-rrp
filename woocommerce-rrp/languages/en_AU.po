@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce RRP\n"
+"Project-Id-Version: RRP (MSRP) for WooCommerce\n"
 "POT-Creation-Date: 2018-08-24 16:21+1000\n"
 "PO-Revision-Date: 2018-08-24 16:22+1000\n"
 "Last-Translator: \n"

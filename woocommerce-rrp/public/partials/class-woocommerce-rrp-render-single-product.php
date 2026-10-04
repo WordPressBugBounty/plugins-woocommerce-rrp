@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) :
 endif;
 
 /**
- * Public parent class that pulls everything together.
+ * Adds the RRP and sale price text to prices on single product pages.
  *
  * @since 1.7.0
  */
@@ -31,6 +31,7 @@ class WooCommerce_RRP_Render_Single_Product {
 	 * Add all filter type actions.
 	 *
 	 * @since 1.7.0
+	 * @return void
 	 */
 	public function woo_rrp_public_single_activate() {
 		if ( ! is_admin() ) :
@@ -42,28 +43,22 @@ class WooCommerce_RRP_Render_Single_Product {
 	 * Output the field values to the product price on the front end.
 	 *
 	 * @since 1.0
-	 * @param string $price Allows access to the product price.
-	 * @param object $product Allows access to product object.
+	 * @param string          $price   Allows access to the product price html.
+	 * @param WC_Product|null $product Allows access to product object.
+	 * @return string $price Updated price html string.
 	 */
 	public function woo_rrp_price_html_single( $price, $product ) {
-		if ( ! is_product() || ! $price ) :
+		$price = (string) $price;
+
+		if ( '' === $price || ! $product || ! is_product() ) :
 			return $price;
 		endif;
 
-		if ( is_product() && $product->is_on_sale() ) :
-
-			$price = $this->woo_rrp_product_on_sale_string( $price );
-
-			return $price;
+		if ( $product->is_on_sale() ) :
+			return $this->woo_rrp_product_on_sale_string( $price );
 		endif;
 
-		if ( is_product() && ! $product->is_on_sale() ) :
-
-			$price = $this->woo_rrp_product_not_on_string( $price );
-
-			return $price;
-		endif;
-
+		return $this->woo_rrp_product_not_on_string( $price );
 	}
 
 	/**
@@ -73,7 +68,7 @@ class WooCommerce_RRP_Render_Single_Product {
 	 * @return string $woo_rrp_before_price for displaying before the price.
 	 */
 	private function woo_rrp_before_price_getter() {
-		$woo_rrp_before_price = apply_filters( 'woo_rrp_before_price', get_option( 'woo_rrp_before_price', 1 ) ) . ' ';
+		$woo_rrp_before_price = apply_filters( 'woo_rrp_before_price', get_option( 'woo_rrp_before_price', '' ) ) . ' ';
 
 		return $woo_rrp_before_price;
 	}
@@ -85,7 +80,7 @@ class WooCommerce_RRP_Render_Single_Product {
 	 * @return string $woo_rrp_before_sale_price for displaying before the sale price.
 	 */
 	private function woo_rrp_before_sale_price_getter() {
-		$woo_rrp_before_sale_price = apply_filters( 'woo_rrp_before_sale_price', get_option( 'woo_rrp_before_sale_price', 1 ) ) . ' ';
+		$woo_rrp_before_sale_price = apply_filters( 'woo_rrp_before_sale_price', get_option( 'woo_rrp_before_sale_price', '' ) ) . ' ';
 
 		return $woo_rrp_before_sale_price;
 	}
@@ -94,13 +89,14 @@ class WooCommerce_RRP_Render_Single_Product {
 	 * Returns the $price with modified html for products when on sale.
 	 *
 	 * @since 1.7.6
-	 * @param string $price product price.
+	 * @param string $price product price html.
+	 * @return string Updated price html string.
 	 */
 	private function woo_rrp_product_on_sale_string( $price ) {
 
 		$woo_rrp_replace = array(
-			'<del aria-hidden="true">' => '<del aria-hidden="true"><span class="rrp-price">' . esc_attr( $this->woo_rrp_before_price_getter(), 'woocommerce-rrp' ) . '</span>',
-			'<ins aria-hidden="true">' => '<br /><ins aria-hidden="true"><span class="rrp-sale">' . esc_attr( $this->woo_rrp_before_sale_price_getter(), 'woocommerce-rrp' ) . '</span><ins>',
+			'<del aria-hidden="true">' => '<del aria-hidden="true"><span class="rrp-price">' . esc_html( $this->woo_rrp_before_price_getter() ) . '</span>',
+			'<ins aria-hidden="true">' => '<br /><ins aria-hidden="true"><span class="rrp-sale">' . esc_html( $this->woo_rrp_before_sale_price_getter() ) . '</span>',
 		);
 
 		$price = str_replace( array_keys( $woo_rrp_replace ), array_values( $woo_rrp_replace ), $price );
@@ -109,14 +105,15 @@ class WooCommerce_RRP_Render_Single_Product {
 	}
 
 	/**
-	 * Returns the $price with modified html for products when on sale.
+	 * Returns the $price with modified html for products when not on sale.
 	 *
 	 * @since 1.7.6
-	 * @param string $price product price.
+	 * @param string $price product price html.
+	 * @return string Updated price html string.
 	 */
 	private function woo_rrp_product_not_on_string( $price ) {
 
-		$price = '<span class="rrp-price">' . esc_attr( $this->woo_rrp_before_price_getter(), 'woocommerce-rrp' ) . '</span>' . $price;
+		$price = '<span class="rrp-price">' . esc_html( $this->woo_rrp_before_price_getter() ) . '</span>' . $price;
 
 		return $price;
 	}
